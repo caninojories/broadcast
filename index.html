@@ -160,7 +160,7 @@
                                               <p>Hi! I hope your doing great. How may I help u?</p>
                                               </div>
                                             </li>
-                                                <li class='me'>
+                                            <li class='me'>
                                               <div class='avatar-icon'>
                                               	<p>lorem</p>
                                               </div>
@@ -209,11 +209,11 @@
                                             </div>
                                             <div class="col-xs-8 col-sm-8 col-md-9">
                                             	<div class="row">
-                                            		<input type="text" aria-describedby="basic-addon1" placeholder="Username" class="form-control">
+                                            		<input type="text" aria-describedby="basic-addon1" placeholder="Message here..." class="form-control" id="message">
                                                 </div>
                                             </div>
                                             <div class="col-xs-2 col-sm-2 col-md-2 text-center">
-                                            	<i class="fa fa-send-o"></i>
+                                            	<i class="fa fa-send-o" id="send"></i>
                                             </div>
                                         </div>
 									</section>
@@ -223,7 +223,7 @@
                         </div>
                 	</div>
                 </div>
-
+                <input type="text" class="form-control" placeholder="Name Here" id="name">
                 <button class="btn btn-default" id="start-conferencing">New Broadcast</button>
                 <span class="label label-warning" id="broadcastUrl"></span>
            </div>
@@ -247,11 +247,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
     <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"> </script>
     <script src="js/bootstrap.min.js"></script>
     <script src="https://www.webrtc-experiment.com/firebase.js"> </script>
     <script src="RTCPeerConnection.js"> </script>
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="broadcast.js"> </script>
     <script src="broadcast-ui.js"> </script>
+    <script src="chat.js"> </script>
 </body>
 </html>

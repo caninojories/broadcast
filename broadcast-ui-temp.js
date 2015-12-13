@@ -66,8 +66,8 @@ var config = {
 function createButtonClickHandler() {
     /*make a unique url*/
     var uniqueAddressToken = uniqueToken();
-    // var broadcastUrl = document.getElementById('broadcastUrl');
-    // broadcastUrl.innerHTML = window.location.origin + '?id=' + uniqueAddressToken;
+    var broadcastUrl = document.getElementById('broadcastUrl');
+    broadcastUrl.innerHTML = window.location.origin + '?id=' + uniqueAddressToken;
 
     captureUserMedia(function() {
         broadcastUI.createRoom({

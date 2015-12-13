@@ -33,20 +33,10 @@ socket_io
 
     socket.on('initiate', function(data) {
       if (Object.keys(data).length) {
-        // console.log('initiate');
-        // console.log(data);
-        // socket.join(data.uniqueAddressToken);
-        /* get the data */
         Broadcast
           .findOne({uniqueAddressToken: data.uniqueAddressToken})
           .then(function(obj, err) {
-            console.log('initiate');
-            console.log(obj);
             socket.join(obj.data.uniqueAddressToken);
-            // socket.emit('message', obj.data);
-            // socket_io.to(obj.data.broadcaster).emit('message', obj.data);
-            // socket_io.in(obj.data.broadcaster).emit('message', obj.data);
-
             clients[socket.id].emit('message',  obj.data);
           })
       }
@@ -54,11 +44,9 @@ socket_io
 
     socket.on('message', function(data) {
       if (data.broadcaster) {
-        // console.log(data);
         console.log('if');
         console.log(data);
         socket.join(data.uniqueAddressToken);
-        // socket.join(data.broadcaster);
         /*save the data for the broadcast*/
         var newBroadcast = Broadcast({
           uniqueAddressToken: data.uniqueAddressToken,
@@ -66,8 +54,6 @@ socket_io
         });
         newBroadcast.save();
       } else {
-        console.log('else');
-        console.log(data);
         var room = null;
         if (data.joinUser) {
           room = data.joinUser;
@@ -75,11 +61,13 @@ socket_io
           room = data.userToken;
         }
 
-        console.log('room')
-        console.log(room);
-        // socket.broadcast.emit(data.uniqueAddressToken, data);
         socket.broadcast.to(data.uniqueAddressToken).emit('message', data);
       }
+    });
+
+    socket.on('chatMessage', function(data) {
+      data.user = 'viewer';
+      socket.broadcast.to(data.uniqueAddressToken).emit('chatMessage', data);
     });
 
   socket.on('disconnect', function(status) {

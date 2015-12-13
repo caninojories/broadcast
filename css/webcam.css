@@ -18,6 +18,10 @@ body{
 	background-color:#b30608 !important;
 }
 
+.right {
+	float: right;
+}
+
 h1{
 	font-size:24px;
 	}

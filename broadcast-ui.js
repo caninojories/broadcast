@@ -1,12 +1,12 @@
 // Muaz Khan         - www.MuazKhan.com
 // MIT License       - www.WebRTC-Experiment.com/licence
 // Experiments       - github.com/muaz-khan/WebRTC-Experiment
-
+var global_socket;
 var config = {
     openSocket: function(config) {
-
         var channel = config.channel || location.href.replace( /\/|:|#|%|\.|\[|\]/g , '');
-        var socket = io.connect('192.168.0.102:32769');
+        var socket = io.connect('192.96.159.93:32769');
+        global_socket = socket;
         socket.channel = channel;
         socket.on('message', function(data) {
           config.onmessage(data);
@@ -27,33 +27,48 @@ var config = {
         return socket;
     },
     onRemoteStream: function(media) {
-        var video = media.video;
-        video.setAttribute('controls', true);
+      var video = media.video;
+      video.setAttribute('controls', true);
 
-        if (querystring) {
-          participants.insertBefore(video, participants.firstChild);
-        }
+      if (querystring) {
+        console.log(media);
+        participants.insertBefore(video, participants.firstChild);
+      } else {
+        console.log(media);
+      }
 
-        video.play();
-        rotateVideo(video);
+      video.play();
+      rotateVideo(video);
     },
     onRoomFound: function(room) {
-        var alreadyExist = document.getElementById(room.broadcaster);
-        if (alreadyExist) return;
+      uniqueAddressToken = room.uniqueAddressToken;
+      var alreadyExist = document.getElementById(room.broadcaster);
+      if (alreadyExist) return;
 
-            captureUserMedia(function() {
-                broadcastUI.joinRoom({
-                  uniqueAddressToken: room.uniqueAddressToken,
-                    roomToken: room.roomToken,
-                    joinUser: room.broadcaster
-                });
-            });
-            hideUnnecessaryStuff();
+      captureUserMedia(function() {
+          broadcastUI.joinRoom({
+            uniqueAddressToken: room.uniqueAddressToken,
+              roomToken: room.roomToken,
+              joinUser: room.broadcaster
+          });
+      });
+      hideUnnecessaryStuff();
     }
 };
 
+var uniqueAddressToken;
+var broadcasterName;
 function createButtonClickHandler() {
-var uniqueAddressToken = uniqueToken();
+  var name        = $("#name");
+  if (name.val() !== '') {
+    broadcasterName = name.val();
+  } else {
+    return;
+  }
+  /*make a unique url*/
+  uniqueAddressToken = uniqueToken();
+  var broadcastUrl = document.getElementById('broadcastUrl');
+  broadcastUrl.innerHTML = window.location.origin + '?id=' + uniqueAddressToken;
 
     captureUserMedia(function() {
         broadcastUI.createRoom({
@@ -61,6 +76,10 @@ var uniqueAddressToken = uniqueToken();
             uniqueAddressToken : uniqueAddressToken
         });
     });
+
+    /*hide the startbroadcast and name variable*/
+    name.hide();
+    $('#start-conferencing').hide();
     hideUnnecessaryStuff();
 }
 
